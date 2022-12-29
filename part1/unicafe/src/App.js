@@ -6,24 +6,26 @@ const Button = (props) => (
   </button>
 )
 
-const StatisticLine = (props) => {
+const StatisticLine = ({text, value, col3}) => {
   return (
-    <p>{props.text} {props.value}</p>
+    <tr><td>{text}</td><td>{value}</td><td>{col3}</td></tr>
   )
 }
 
 const Statistics = (props) => {
-  if (props.activate) {
+   const { good, nuetral, bad, all, average, positive, active } = props
+  if (active) {
     return (
       <div>
         <h1>statistics</h1>
-        <div>
-          <StatisticLine text='good' value={props.good} />
-          <StatisticLine text='nuetral' value={props.nuetral} />
-          <StatisticLine text='bad' value={props.bad} />
-          <StatisticLine text='all' value={props.all} />
-          <StatisticLine text='average' value={props.average} />
-        </div>
+        <table>
+          <StatisticLine text='good' value={good} />
+          <StatisticLine text='nuetral' value={nuetral} />
+          <StatisticLine text='bad' value={bad} />
+          <StatisticLine text='all' value={all} />
+          <StatisticLine text='average' value={average} />
+          <StatisticLine text='positive' value={positive} col3="%" />
+        </table>
       </div>
     )
   }
@@ -36,29 +38,31 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const [all, setAll] = useState(0)
   const [average, setAverage] = useState(0)
-  const [activate, setActivate] = useState(false)
+  const [active, setActive] = useState(false)
+  const [positive, setPositive] = useState(0.0)
 
-  const handled = () => {
+  const handled = (inc) => {
+    setPositive(100 * ((good + inc) / (all + 1)))
     setAll(all + 1)
-    setActivate(true)
+    setActive(true)
   }
 
   const theGood = () => {
     setAverage((good + 1 - bad) / (all + 1))
     setGood(good + 1)
-    handled()
+    handled(1)
   }
 
   const theNuetral = () => {
     setAverage((good - bad) / (all + 1))
     setNuetral(nuetral + 1)
-    handled()
+    handled(0)
   }
 
   const theBad = () => {
     setAverage((good - bad - 1) / (all + 1))
     setBad(bad + 1)
-    handled()
+    handled(0)
   }
 
   return (
@@ -69,7 +73,9 @@ const App = () => {
         <Button handleClick={() => theNuetral()} text='nuetral' />
         <Button handleClick={() => theBad()} text='bad' />
       </div>
-      <Statistics good={good} nuetral={nuetral} bad={bad} all={all} average={average} activate={activate} />
+      <Statistics good={good} nuetral={nuetral} bad={bad}
+                  all={all} average={average} positive={positive}
+                  active={active} />
     </div>
   )
 }
