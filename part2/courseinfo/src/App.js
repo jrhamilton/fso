@@ -19,14 +19,26 @@ const Parts = ( {parts} ) => (
 )
 
 const Course = ({course}) => {
+  const sumOfExercises = (parts) => {
+    const len = parts.length
+    let sum = 0
+    for (let i=0;i<len;i+=1) {
+      sum += parts[i]['exercises']
+    }
+    return (sum)
+  }
+
   return (
     <div>
-      <ul style={{listStyleType:"none"}}>
+      <ul style={{listStyleType:"none", paddingInlineStart:"0"}}>
         <li key={course.id}>
           <Header course={course.name} />
           <Parts parts={course.parts} />
         </li>
       </ul>
+      <div>
+        <Total sum={sumOfExercises(course.parts)} />
+      </div>
     </div>
   )
 }
