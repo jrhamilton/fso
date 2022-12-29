@@ -20,11 +20,7 @@ const Parts = ( {parts} ) => (
 
 const Course = ({course}) => {
   const sumOfExercises = (parts) => {
-    const len = parts.length
-    let sum = 0
-    for (let i=0;i<len;i+=1) {
-      sum += parts[i]['exercises']
-    }
+    const sum = parts.reduce((s, p) => s + p.exercises, 0)
     return (sum)
   }
 
