@@ -1,22 +1,30 @@
 const Header = ({ course }) => <h2>{course}</h2>
 
-const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+const Total = ({ sum }) => (
+  <li style={{fontWeight:"bold", paddingBottom:"8px"}}>Number of exercises {sum}</li>
+)
 
-const Part = (props) => {
-  return (
-  <li>
+const Part = (props) => (
+  <li style={{paddingBottom:"8px"}}>
     {props.name} {props.exercises}
   </li>
 )
-}
 
-const Parts = ( {parts} ) => (
-  <ul style={{listStyleType:"none"}}>
-    {parts.map(part =>
-      <Part key={part.id.toString()} name={part.name} exercises={part.exercises} />
-    )}
-  </ul>
-)
+const Parts = ( {parts} ) => {
+  const sumOfExercises = (parts) => {
+    const sum = parts.reduce((s, p) => s + p.exercises, 0)
+    return (sum)
+  }
+
+  return (
+    <ul style={{listStyleType:"none", paddingInlineStart:"0"}}>
+      {parts.map(part =>
+        <Part key={part.id.toString()} name={part.name} exercises={part.exercises} />
+      )}
+      <Total sum={sumOfExercises(parts)} />
+    </ul>
+  )
+}
 
 const Course = (course) => {
   return (
@@ -28,28 +36,14 @@ const Course = (course) => {
 }
 
 const Courses = ({courses}) => {
-  const sumOfPartsExercises = (parts) => {
-    const sum = parts.reduce((s, p) => s + p.exercises, 0)
-    return (sum)
-  }
-
-  const sumOfExercises = () => {
-    const sum = courses.reduce((s, c) =>
-      s + sumOfPartsExercises(c.parts), 0
-    )
-    return (sum)
-  }
-
   return (
     <div>
+      <h1>Web Development Curriculum</h1>
       <ul style={{listStyleType:"none", paddingInlineStart:"0"}}>
         {courses.map(course =>
           <Course key={course.id.toString()} name={course.name} parts={course.parts} />
         )}
       </ul>
-      <div>
-        <Total sum={sumOfExercises(courses)} />
-      </div>
     </div>
   )
 }
