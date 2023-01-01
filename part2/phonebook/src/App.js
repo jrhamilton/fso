@@ -2,9 +2,10 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '555-555-555' }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const tryAddPerson = (event) => {
     event.preventDefault()
@@ -12,8 +13,11 @@ const App = () => {
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   const hasDuplicate = () => {
@@ -22,22 +26,28 @@ const App = () => {
   }
 
   const doHasDuplicate = () => {
-    setNewName('')
+    resetValues()
     alert(`${newName} is already added to phonebook`)
   }
 
   const doAddPerson = () => {
     const personObject = {
       name: newName,
+      number: newNumber,
       id: persons.length + 1,
     }
     setPersons(persons.concat(personObject))
+    resetValues()
+  }
+
+  const resetValues = () => {
     setNewName('')
+    setNewNumber('')
   }
 
   const Person = (props) => (
     <li>
-      {props.name}
+      {props.name}: {props.number}
     </li>
   )
 
@@ -48,13 +58,21 @@ const App = () => {
         <ul>
           {persons.map(person =>
             <Person key={person.name}
-                    name={person.name} />
+                    name={person.name}
+                    number={person.number} />
           )}
         </ul>
         <div>
           name:
           <input value={newName}
                  onChange={handleNameChange}
+          />
+        </div>
+        <div>
+          number:
+          <input type="number"
+                 value={newNumber}
+                 onChange={handleNumberChange}
           />
         </div>
         <div>
