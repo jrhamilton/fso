@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '555-555-555' }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filterdPs, setFilterdPs] = useState(persons)
 
   const tryAddPerson = (event) => {
     event.preventDefault()
@@ -18,6 +17,16 @@ const App = () => {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const filterNames = (event) => {
+    const v = event.target.value
+    console.log(v)
+    const filterd = persons.filter((p) =>
+      p.name.match(new RegExp(v, "i"))
+    )
+    console.log(filterd)
+    setFilterdPs(filterd)
   }
 
   const hasDuplicate = () => {
@@ -36,8 +45,13 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     }
-    setPersons(persons.concat(personObject))
+    settingPersons(persons.concat(personObject))
     resetValues()
+  }
+
+  const settingPersons = (personArray) => {
+    setPersons(personArray)
+    setFilterdPs(personArray)
   }
 
   const resetValues = () => {
@@ -54,33 +68,43 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={tryAddPerson}>
+      <div>
+        filter shown with
+        <input onChange={filterNames} />
+      </div>
+
+      <div>
+        <h2>Add a new Number</h2>
+        <form onSubmit={tryAddPerson}>
+          <div>
+            name:
+            <input value={newName}
+                   onChange={handleNameChange}
+            />
+          </div>
+          <div>
+            number:
+            <input type="number"
+                   value={newNumber}
+                   onChange={handleNumberChange}
+            />
+          </div>
+          <div>
+            <button type="submit">add</button>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <h2>Numbers</h2>
         <ul>
-          {persons.map(person =>
+          {filterdPs.map(person =>
             <Person key={person.name}
                     name={person.name}
                     number={person.number} />
           )}
         </ul>
-        <div>
-          name:
-          <input value={newName}
-                 onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number:
-          <input type="number"
-                 value={newNumber}
-                 onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-
+      </div>
     </div>
   )
 }
