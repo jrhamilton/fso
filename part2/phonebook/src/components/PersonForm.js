@@ -1,7 +1,8 @@
 const PersonForm = (props) => {
   const {setNewName, setNewNumber,
          newName, newNumber,
-         persons, setPersons, setFilterdPs} = props
+         persons, setPersons, setFilterdPs,
+         settingPersons, resetValues} = props
 
   const tryAddPerson = (event) => {
     event.preventDefault()
@@ -33,16 +34,6 @@ const PersonForm = (props) => {
     }
     settingPersons(persons.concat(personObject))
     resetValues()
-  }
-
-  const settingPersons = (personArray) => {
-    setPersons(personArray)
-    setFilterdPs(personArray)
-  }
-
-  const resetValues = () => {
-    setNewName('')
-    setNewNumber('')
   }
 
   return (
