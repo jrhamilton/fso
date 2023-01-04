@@ -1,47 +1,21 @@
 import CountryList from './CountryList'
+import ShowCountry from './ShowCountry'
 
-const Language = ({ lang }) => {
-  return (
-    <li>{lang}</li>
-  )
-}
-
-const Languages = ({languagesObj}) => {
-  const languages = Object.entries(languagesObj)
-  return (
-    <ul>
-      {languages.map(([k,v]) =>
-        <Language key={k} lang={v} />
-      )}
-    </ul>
-  )
-}
-
-const CountryView = ({countries}) => {
+const CountryView = (props) => {
+  const {countries, showCountry, setShowCountry} = props
   const l = countries.length
   if (l !== 1) {
     return (
-      <CountryList countries={countries} l={l} />
+      <CountryList countries={countries}
+                   l={l}
+                   showCountry={showCountry}
+                   setShowCountry={setShowCountry} />
     )
   }
 
-
   const c = countries[0]
   return (
-    <div>
-      <h1>{c.name.common}</h1>
-      <div>
-        <p>Capital: {c.capital[0]}</p>
-        <p>Area: {c.area}</p>
-      </div>
-      <div>
-        <h3>Languages</h3>
-        <Languages languagesObj={c.languages} />
-      </div>
-      <div>
-        <img src={c.flags.png} />
-      </div>
-    </div>
+    <ShowCountry c={c} show={true} />
   )
 }
 
