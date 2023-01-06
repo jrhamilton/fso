@@ -2,7 +2,8 @@ import CountryList from './CountryList'
 import ShowCountry from './ShowCountry'
 
 const CountryView = (props) => {
-  const {countries, showCountry, setShowCountry} = props
+  const {countries, showCountry, setShowCountry, cw} = props
+
   const l = countries.length
   if (l !== 1) {
     return (
@@ -15,7 +16,7 @@ const CountryView = (props) => {
 
   const c = countries[0]
   return (
-    <ShowCountry c={c} show={true} />
+    <ShowCountry c={c} show={true} single={true} cw={cw} />
   )
 }
 

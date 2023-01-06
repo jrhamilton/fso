@@ -15,7 +15,27 @@ const Languages = ({languagesObj}) => {
   )
 }
 
-const ShowCountry = ({c, show}) => {
+const SingleExtras = ({c, single, cw}) => {
+  const cap = c.capital[0]
+
+  if (single && typeof(cw['deg']) !== 'undefined') {
+    return (
+      <div>
+        <h3>Weather in {cap}</h3>
+        <div>
+          Weather:
+          {cw['deg']['celcius']} Celcius
+        </div>
+        <div>
+          <img src={"http://openweathermap.org/img/wn/" + cw['weather'][0]['icon'] + "@2x.png"}
+               alt={cw['weather'][0]['description']} />
+        </div>
+      </div>
+    )
+  }
+}
+
+const ShowCountry = ({c, show, single, cw}) => {
   if (show) {
     return (
     <div>
@@ -29,8 +49,9 @@ const ShowCountry = ({c, show}) => {
         <Languages languagesObj={c.languages} />
       </div>
       <div>
-        <img src={c.flags.png} />
+        <img src={c.flags.png} alt="" />
       </div>
+      <SingleExtras c={c} single={single} cw={cw} />
     </div>
     )
   }

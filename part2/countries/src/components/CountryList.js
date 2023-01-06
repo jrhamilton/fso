@@ -28,7 +28,10 @@ const CountryList = (props) => {
         )}>
           {!showCountry[c.cca3] ? 'Show' : 'Hide' }
         </button>
-        <ShowCountry c={c} show={showCountry[c.cca3]} />
+        <ShowCountry c={c}
+                     show={showCountry[c.cca3]}
+                     single={false}
+                     x="XOXOXOXOXO" />
       </li>
     )}
     </>
