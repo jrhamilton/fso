@@ -43,8 +43,6 @@ const App = () => {
                     newName={newName}
                     newNumber={newNumber}
                     persons={persons}
-                    setPersons={setPersons}
-                    setFilterdPs={setFilterdPs}
                     settingPersons={settingPersons}
                     resetValues={resetValues} />
       </div>

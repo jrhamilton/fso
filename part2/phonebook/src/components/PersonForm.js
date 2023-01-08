@@ -1,8 +1,9 @@
+import axios from 'axios'
+
 const PersonForm = (props) => {
   const {setNewName, setNewNumber,
          newName, newNumber,
-         persons, setPersons, setFilterdPs,
-         settingPersons, resetValues} = props
+         persons, settingPersons, resetValues} = props
 
   const tryAddPerson = (event) => {
     event.preventDefault()
@@ -32,8 +33,13 @@ const PersonForm = (props) => {
       number: newNumber,
       id: persons.length + 1,
     }
-    settingPersons(persons.concat(personObject))
-    resetValues()
+
+    axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        settingPersons(persons.concat(response.data))
+        resetValues()
+      })
   }
 
   return (
