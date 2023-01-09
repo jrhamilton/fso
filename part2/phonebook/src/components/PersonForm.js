@@ -1,4 +1,5 @@
 import axios from 'axios'
+import personService from '../services/persons'
 
 const PersonForm = (props) => {
   const {setNewName, setNewNumber,
@@ -23,8 +24,25 @@ const PersonForm = (props) => {
   }
 
   const doHasDuplicate = () => {
+    if (window.confirm(`${newName} is already added to phonebook. Replace old number with a new one?`)) {
+      const person = persons.find(p => p.name===newName)
+      const newPerson = {
+        id: person.id,
+        name: person.name,
+        number: newNumber
+      }
+
+      personService.update(person.id, newPerson)
+        .then(res => {
+          const newPerson = res.data
+          const newPersons = persons.map(p => {
+            return p.name !== newName ? p : newPerson
+          })
+
+          settingPersons(newPersons)
+        })
+    }
     resetValues()
-    alert(`${newName} is already added to phonebook`)
   }
 
   const doAddPerson = () => {

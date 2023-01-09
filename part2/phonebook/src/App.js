@@ -49,7 +49,8 @@ const App = () => {
       </div>
       <div>
         <h2>Numbers</h2>
-        <NumberList persons={filterdPs} />
+        <NumberList persons={filterdPs}
+                    settingPersons={settingPersons} />
       </div>
     </div>
   )
