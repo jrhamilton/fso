@@ -15,7 +15,12 @@ const Person = (props) => {
           }
         })
         .catch(err => {
-          alert(err.message)
+          props.setMessage(`ERROR: ${props.name} has already been removed from the server.`)
+          props.setMessageClass('error')
+          setTimeout(() => {
+            props.setMessage('')
+            props.setMessageClass('')
+          }, 5000)
         })
     }
   }
@@ -30,7 +35,10 @@ const Person = (props) => {
   )
 }
 
-const NumberList = ({persons, settingPersons}) => {
+const NumberList = (props) => {
+  const {persons, settingPersons,
+         setMessage, setMessageClass} = props
+
   return (
     <ul>
       {persons.map(person =>
@@ -39,7 +47,9 @@ const NumberList = ({persons, settingPersons}) => {
                 number={person.number}
                 id={person.id}
                 settingPersons={settingPersons}
-                persons={persons} />
+                persons={persons}
+                setMessage={setMessage}
+                setMessageClass={setMessageClass} />
       )}
     </ul>
   )

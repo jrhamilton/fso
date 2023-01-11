@@ -4,7 +4,8 @@ import personService from '../services/persons'
 const PersonForm = (props) => {
   const {setNewName, setNewNumber,
          newName, newNumber,
-         persons, settingPersons, resetValues} = props
+         persons, settingPersons, resetValues,
+         setMessage, setMessageClass} = props
 
   const tryAddPerson = (event) => {
     event.preventDefault()
@@ -49,14 +50,22 @@ const PersonForm = (props) => {
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     }
 
-    axios
-      .post('http://localhost:3001/persons', personObject)
+    personService
+      .create(personObject)
       .then(response => {
         settingPersons(persons.concat(response.data))
         resetValues()
+        setMessage(`${personObject.name} is added.`)
+        setMessageClass('success')
+        return null
+      })
+      .then(() => {
+        setTimeout(() => {
+          setMessage('')
+          setMessageClass('')
+        }, 5000)
       })
   }
 

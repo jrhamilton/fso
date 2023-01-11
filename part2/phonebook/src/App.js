@@ -4,6 +4,7 @@ import personService from './services/persons'
 import PersonForm from './components/PersonForm'
 import NumberList from './components/NumberList'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -11,6 +12,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterdPs, setFilterdPs] = useState(persons)
+  const [message, setMessage] = useState('')
+  const [messageClass, setMessageClass] = useState('')
 
   const settingPersons = (personArray) => {
     setPersons(personArray)
@@ -45,12 +48,18 @@ const App = () => {
                     newNumber={newNumber}
                     persons={persons}
                     settingPersons={settingPersons}
-                    resetValues={resetValues} />
+                    resetValues={resetValues}
+                    setMessage={setMessage}
+                    setMessageClass={setMessageClass} />
       </div>
       <div>
         <h2>Numbers</h2>
+        <Notification message={message}
+                      messageClass={messageClass} />
         <NumberList persons={filterdPs}
-                    settingPersons={settingPersons} />
+                    settingPersons={settingPersons}
+                    setMessage={setMessage}
+                    setMessageClass={setMessageClass} />
       </div>
     </div>
   )
