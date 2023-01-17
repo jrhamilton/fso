@@ -1,0 +1,23 @@
+GET http://localhost:3001/api/persons
+
+GET http://localhost:3001/api/persons/1
+
+# GET Person non-existent
+GET http://localhost:3001/api/persons/22002
+
+# person POST without name
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "number": "12345"
+}
+
+# person POST
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Albert Einstein",
+  "number": "777-888-999"
+}
