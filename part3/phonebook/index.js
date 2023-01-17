@@ -62,6 +62,18 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  new_persons = persons.filter(p => p.id !== id)
+
+  if (new_persons.length < persons.length) {
+    persons = new_persons
+    response.status(204).end()
+  } else {
+    response.status(404).end('<html><body><h1>Person Does Not Exist</h1></body></html>')
+  }
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Phonebook server running on port ${PORT}`)

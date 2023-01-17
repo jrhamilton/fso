@@ -26,5 +26,11 @@ Content-Type: application/json
   "number": "777-888-999"
 }
 
-
+# GET info page
 GET http://localhost:3001/info
+
+# DELETE person
+DELETE http://localhost:3001/api/persons/1
+
+# DELETE attempt of non-existent person
+DELETE http://localhost:3001/api/persons/99999
