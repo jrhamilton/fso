@@ -26,8 +26,26 @@ let persons = [
   }
 ]
 
+const info_html = (count) => {
+  const date = new Date()
+  return (
+`<html>
+  <body>
+    <p>Phonebook has info for ${count} people</p>
+    <p>${date}</p>
+  </body>
+</html>`
+  )
+}
+
 app.get('/', (request, response) => {
   response.send('<h1>PhoneBook</h1>')
+})
+
+app.get('/info', (request, response) => {
+  const person_count = persons.length
+  const html = info_html(person_count)
+  response.send(html)
 })
 
 app.get('/api/persons', (request, response) => {

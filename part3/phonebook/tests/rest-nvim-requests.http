@@ -1,3 +1,5 @@
+GET http://localhost:3001/
+
 GET http://localhost:3001/api/persons
 
 GET http://localhost:3001/api/persons/1
@@ -21,3 +23,6 @@ Content-Type: application/json
   "name": "Albert Einstein",
   "number": "777-888-999"
 }
+
+
+GET http://localhost:3001/info
