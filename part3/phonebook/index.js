@@ -38,6 +38,17 @@ const info_html = (count) => {
   )
 }
 
+const person_post_html = (person) => {
+  return (
+`<html>
+  <body>
+    <p>${person.name} has been added.</p>
+    <p>Number: ${person.number}</p>
+  </body>
+</html>`
+  )
+}
+
 app.get('/', (request, response) => {
   response.send('<h1>PhoneBook</h1>')
 })
@@ -60,6 +71,16 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end('<html><body><h1>Person Not Found</h1></body></html>')
   }
+})
+
+app.post('/api/persons', (request, response) => {
+  const id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+  const name = request.body.name
+  const number = request.body.number
+  person = { id, name, number }
+  persons = persons.concat(person)
+  const html = person_post_html(person)
+  response.send(html)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
