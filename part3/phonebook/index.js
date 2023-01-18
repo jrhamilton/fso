@@ -44,9 +44,24 @@ const person_post_html = (person) => {
   <body>
     <p>${person.name} has been added.</p>
     <p>Number: ${person.number}</p>
+    <p>ID: ${person.id}</p>
   </body>
 </html>`
   )
+}
+
+const person_post = (body) => {
+  const person = {
+    id: Math.floor(
+      Math.random() * Number.MAX_SAFE_INTEGER
+    ),
+    name: body.name,
+    number: body.number,
+  }
+
+  persons = persons.concat(person)
+  const html = person_post_html(person)
+  return html
 }
 
 app.get('/', (request, response) => {
@@ -74,12 +89,24 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-  const id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
-  const name = request.body.name
-  const number = request.body.number
-  person = { id, name, number }
-  persons = persons.concat(person)
-  const html = person_post_html(person)
+  const body = request.body
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'Requres name'
+    })
+  }
+
+  const not_unique = persons.some(p => {
+    return p.name === body.name
+  })
+  if (not_unique) {
+    return response.status(409).json(
+      { error: 'name must be unique' }
+    )
+  }
+
+  const html = person_post(body)
   response.send(html)
 })
 
