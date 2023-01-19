@@ -2,7 +2,11 @@ const express = require('express')
 var morgan = require('morgan')
 const app = express()
 
-app.use(morgan('tiny'))
+morgan.token('postparams', function(req, res) {
+  return JSON.stringify(req.body)
+});
+
+app.use(morgan(':url :method :status :res[content-length] - :response-time ms :postparams'))
 
 app.use(express.json())
 
