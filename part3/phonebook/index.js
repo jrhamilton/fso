@@ -1,5 +1,8 @@
 const express = require('express')
+var morgan = require('morgan')
 const app = express()
+
+app.use(morgan('tiny'))
 
 app.use(express.json())
 
@@ -28,14 +31,9 @@ let persons = [
 
 const info_html = (count) => {
   const date = new Date()
-  return (
-`<html>
-  <body>
-    <p>Phonebook has info for ${count} people</p>
-    <p>${date}</p>
-  </body>
-</html>`
-  )
+  let html   = `<p>Phonebook has info for ${count} people</p>`
+  html       = `${html}<p>${date}</p>`
+  return html
 }
 
 const person_post_html = (person) => {
@@ -65,16 +63,19 @@ const person_post = (body) => {
 }
 
 app.get('/', (request, response) => {
+  response.setHeader('Content-Type', 'text/html')
   response.send('<h1>PhoneBook</h1>')
 })
 
 app.get('/info', (request, response) => {
   const person_count = persons.length
   const html = info_html(person_count)
+  response.setHeader('Content-Type', 'text/html')
   response.send(html)
 })
 
 app.get('/api/persons', (request, response) => {
+  response.setHeader('Content-Type', 'application/json')
   response.json(persons)
 })
 
@@ -84,7 +85,7 @@ app.get('/api/persons/:id', (request, response) => {
   if (person) {
     response.json(person)
   } else {
-    response.status(404).end('<html><body><h1>Person Not Found</h1></body></html>')
+    response.status(404).end('Person Not Found')
   }
 })
 
@@ -118,7 +119,8 @@ app.delete('/api/persons/:id', (request, response) => {
     persons = new_persons
     response.status(204).end()
   } else {
-    response.status(404).end('<html><body><h1>Person Does Not Exist</h1></body></html>')
+    response.setHeader('Content-Type', 'text/plain')
+    response.status(404).end('ERROR: Person does not exist')
   }
 })
 
