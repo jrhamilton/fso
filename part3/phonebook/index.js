@@ -33,11 +33,10 @@ let persons = [
   }
 ]
 
-const info_html = (count) => {
+const info_text = (count) => {
   const date = new Date()
-  let html   = `<p>Phonebook has info for ${count} people</p>`
-  html       = `${html}<p>${date}</p>`
-  return html
+  const text = `Phonebook has info for ${count} people. ${date}`
+  return text
 }
 
 const person_post_html = (person) => {
@@ -66,6 +65,8 @@ const person_post = (body) => {
   return html
 }
 
+// *** METHODS ***
+
 app.get('/', (request, response) => {
   response.setHeader('Content-Type', 'text/html')
   response.send('<h1>PhoneBook</h1>')
@@ -73,8 +74,8 @@ app.get('/', (request, response) => {
 
 app.get('/info', (request, response) => {
   const person_count = persons.length
-  const html = info_html(person_count)
-  response.setHeader('Content-Type', 'text/html')
+  const html = info_text(person_count)
+  response.setHeader('Content-Type', 'text/plain')
   response.send(html)
 })
 
