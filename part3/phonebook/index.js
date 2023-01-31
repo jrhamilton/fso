@@ -33,38 +33,6 @@ let persons = [
   }
 ]
 
-const info_text = (count) => {
-  const date = new Date()
-  const text = `Phonebook has info for ${count} people. ${date}`
-  return text
-}
-
-const person_post_html = (person) => {
-  return (
-`<html>
-  <body>
-    <p>${person.name} has been added.</p>
-    <p>Number: ${person.number}</p>
-    <p>ID: ${person.id}</p>
-  </body>
-</html>`
-  )
-}
-
-const person_post = (body) => {
-  const person = {
-    id: Math.floor(
-      Math.random() * Number.MAX_SAFE_INTEGER
-    ),
-    name: body.name,
-    number: body.number,
-  }
-
-  persons = persons.concat(person)
-  const html = person_post_html(person)
-  return html
-}
-
 // *** METHODS ***
 
 app.get('/', (request, response) => {
@@ -129,7 +97,47 @@ app.delete('/api/persons/:id', (request, response) => {
   }
 })
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Phonebook server running on port ${PORT}`)
 })
+
+
+// *** Helper Functions ***
+
+const info_text = (count) => {
+  const date = new Date()
+  const text = `Phonebook has info for ${count} people. ${date}`
+  return text
+}
+
+const person_post_html = (person) => {
+  return (
+`<html>
+  <body>
+    <p>${person.name} has been added.</p>
+    <p>Number: ${person.number}</p>
+    <p>ID: ${person.id}</p>
+  </body>
+</html>`
+  )
+}
+
+const person_post = (body) => {
+  const person = {
+    id: Math.floor(
+      Math.random() * Number.MAX_SAFE_INTEGER
+    ),
+    name: body.name,
+    number: body.number,
+  }
+
+  persons = persons.concat(person)
+  const html = person_post_html(person)
+  return html
+}

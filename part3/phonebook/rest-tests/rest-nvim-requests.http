@@ -9,6 +9,9 @@ GET http://localhost:3001/api/persons/1
 # GET Person non-existent
 GET http://localhost:3001/api/persons/22002
 
+# GET unknown endpoint
+GET http://localhost:3001/yabbadabbadoo
+
 # person POST without name
 POST http://localhost:3001/api/persons
 Content-Type: application/json
