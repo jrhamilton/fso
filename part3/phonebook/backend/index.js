@@ -1,14 +1,21 @@
 const express = require('express')
-var morgan = require('morgan')
 const app = express()
+const cors = require('cors')
+var morgan = require('morgan')
 
 morgan.token('postparams', function(req, res) {
   return JSON.stringify(req.body)
 });
 
-app.use(morgan(':url :method :status :res[content-length] - :response-time ms :postparams'))
+const unknownEndpoint = (request, response) => {
+  response.status(404)
+    .send({ error: 'unknown endpoint' })
+}
 
+app.use(cors())
 app.use(express.json())
+app.use(morgan(':url :method :status:res[content-length] - :response-time ms :postparams'))
+app.use(express.static('build'))
 
 let persons = [
   { 
@@ -97,9 +104,6 @@ app.delete('/api/persons/:id', (request, response) => {
   }
 })
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
 app.use(unknownEndpoint)
 
 const PORT = 3001
