@@ -1,0 +1,13 @@
+# Phonebook
+
+## Link to Application
+<https://holy-cherry-7095.fly.dev/>
+
+## Backend is here
+phonebook/backend/
+  - Node.js / Express.js
+
+
+## Frontend is over there
+phonebook/frontend
+  - JavaScript / React.js
